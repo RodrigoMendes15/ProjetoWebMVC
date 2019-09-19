@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using ProjetoWebMVC.Models;
+using ProjetoWebMVC.Data;
 
 namespace ProjetoWebMVC
 {
@@ -38,14 +39,17 @@ namespace ProjetoWebMVC
 
             services.AddDbContext<ProjetoWebMVCContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("ProjetoWebMVCContext"), builder => builder.MigrationsAssembly("ProjetoWebMVC")));
+
+            services.AddScoped<SeedingServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingServices seedingServices)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingServices.Seed();
             }
             else
             {
