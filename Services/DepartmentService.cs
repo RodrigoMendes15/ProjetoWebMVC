@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using ProjetoWebMVC.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjetoWebMVC.Services
 {
@@ -13,9 +15,9 @@ namespace ProjetoWebMVC.Services
             _context = context;
         }
 
-        public List<Department> FindAll()
+        public async Task<List<Department>> FindAllAsync()
         {
-            return _context.Department.OrderBy(x => x.Nome).ToList();
+            return await _context.Department.OrderBy(x => x.Nome).ToListAsync();
         }
     }
 }
